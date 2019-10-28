@@ -61,6 +61,7 @@ group :test do
   gem 'chromedriver-helper'
   gem 'rails-controller-testing'
   gem 'shoulda-matchers'
+  gem 'launchy'
   gem 'simplecov', require: false
 end
 
