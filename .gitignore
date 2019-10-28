@@ -41,4 +41,8 @@ cop.log
 # Simplecov report folder
 coverage
 
+# Redis
 dump.rdb
+
+# VCR gem recordings
+/spec/cassettes/

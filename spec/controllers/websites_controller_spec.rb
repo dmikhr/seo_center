@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe WebsitesController, type: :controller do
   let(:website) { create(:website) }
 
-  describe 'GET #new' do
+  describe 'GET #new', :vcr do
 
     before { get :new }
 
@@ -16,7 +16,7 @@ RSpec.describe WebsitesController, type: :controller do
     end
   end
 
-  describe 'GET #show' do
+  describe 'GET #show', :vcr do
     before { get :show, params: { id: website } }
 
     it 'renders show view' do
@@ -24,7 +24,7 @@ RSpec.describe WebsitesController, type: :controller do
     end
   end
 
-  describe 'POST #create' do
+  describe 'POST #create', :vcr do
 
     context 'with valid attributes' do
       it 'saves a new website in the database' do
