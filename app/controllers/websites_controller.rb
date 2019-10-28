@@ -8,8 +8,6 @@ class WebsitesController < ApplicationController
 
   def create
     @website = Website.new(website_params)
-    # проверка без ActiveJob
-    # Services::CheckWebsite.call(@website)
     if @website.save
       redirect_to @website, notice: "Website was submitted for check"
     else
