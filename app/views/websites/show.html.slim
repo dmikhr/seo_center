@@ -4,3 +4,7 @@ p= "Report for website: #{link_to @website.url, @website.url, target: '_blank'}"
 -else
   p= "www: #{boolean_to_readable(@website.www)}"
   p= "https: #{boolean_to_readable(@website.https)}"
+  -if !@website.robots_txt.nil?
+    b Robots txt:
+    .robots_txt
+      = @website.robots_txt
