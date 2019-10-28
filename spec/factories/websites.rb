@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :website do
-    url { "http://example.com" }
+    url { "https://stackoverflow.com" }
     www { false }
     https { false }
     scanned_time { DateTime.now }

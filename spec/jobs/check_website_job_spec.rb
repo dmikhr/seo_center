@@ -1,10 +1,10 @@
 require 'rails_helper'
 
-RSpec.describe Services::CheckWebsite do
+RSpec.describe CheckWebsiteJob, type: :job do
   let(:website) { build(:website) }
 
-  it 'checks website' do
+  it 'calls Services::CheckWebsite#call' do
     expect(Services::CheckWebsite).to receive(:call).with(website)
-    Services::CheckWebsite.call(website)
+    CheckWebsiteJob.perform_now(website)
   end
 end

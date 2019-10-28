@@ -3,12 +3,14 @@ require 'net/https'
 
 class Services::CheckWebsite
   class << self
-    def call(url)
-      uri = URI(url)
+    def call(website)
+      uri = URI(website.url)
       # проверяем существование URL
       return unless response_success?(uri)
-      www_presence = www?(uri)
-      https_presence = https?(uri)
+      www = www?(uri)
+      https = https?(uri)
+      # scanned_time для хранения разных версий одного сайта
+      website.update!(www: www, https: https, scanned_time: DateTime.now)
     end
 
     private
@@ -17,11 +19,12 @@ class Services::CheckWebsite
       # если домен уже был задан с www
       return true if uri.host[0, 4] == 'www.'
       # иначе проверяем существование www
-      domain_with_www = "#{uri.scheme}://www.#{uri.host}"
+      domain_with_www = URI("#{uri.scheme}://www.#{uri.host}")
       response_success?(domain_with_www)
     end
 
     def https?(uri)
+      return unless uri.scheme == 'https'
       # Net::HTTP by Example / Net::HTTP Cheat Sheet: https://yukimotopress.github.io/http
       http = Net::HTTP.new(uri.host, uri.port)
 
@@ -33,11 +36,8 @@ class Services::CheckWebsite
     end
 
     def response_success?(uri)
-      begin
-        res = Net::HTTP.get_response(uri)
-        res.is_a?(Net::HTTPSuccess)
-      rescue
-      end
+      res = Net::HTTP.get_response(uri)
+      res.is_a?(Net::HTTPSuccess)
     end
   end
 end
