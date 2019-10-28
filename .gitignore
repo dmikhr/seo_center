@@ -37,3 +37,6 @@
 
 # Ignore Rubocop log made by rubocop > cop.log
 cop.log
+
+# Simplecov report folder
+coverage
