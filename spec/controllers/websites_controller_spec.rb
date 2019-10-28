@@ -3,7 +3,9 @@ require 'rails_helper'
 RSpec.describe WebsitesController, type: :controller do
   let(:website) { create(:website) }
 
-  describe 'GET #new', :vcr do
+  vcr_options = { :record => :new_episodes }
+
+  describe 'GET #new', vcr: vcr_options do
 
     before { get :new }
 
@@ -16,7 +18,7 @@ RSpec.describe WebsitesController, type: :controller do
     end
   end
 
-  describe 'GET #show', :vcr do
+  describe 'GET #show', vcr: vcr_options do
     before { get :show, params: { id: website } }
 
     it 'renders show view' do
@@ -24,7 +26,7 @@ RSpec.describe WebsitesController, type: :controller do
     end
   end
 
-  describe 'POST #create', :vcr do
+  describe 'POST #create', vcr: vcr_options do
 
     context 'with valid attributes' do
       it 'saves a new website in the database' do

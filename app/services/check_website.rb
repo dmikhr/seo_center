@@ -41,7 +41,7 @@ class Services::CheckWebsite
 
     def robots_txt(uri)
       robots_txt_uri = URI("#{uri.scheme}://#{uri.host}/robots.txt")
-      Net::HTTP.get_response(uri).body if response_success?(robots_txt_uri)
+      Net::HTTP.get_response(robots_txt_uri).body if response_success?(robots_txt_uri)
     end
 
     def response_success?(uri)

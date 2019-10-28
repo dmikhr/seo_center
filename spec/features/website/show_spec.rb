@@ -4,7 +4,9 @@ feature 'User can see report for submitted website' do
   given(:website) { create(:website) }
   given(:website_in_progress) { create(:website, :in_progress) }
 
-  scenario 'see report', :vcr do
+  vcr_options = { :record => :new_episodes }
+
+  scenario 'see report', vcr: vcr_options do
     visit website_path(website)
 
     expect(page).to have_content 'Report for website'
