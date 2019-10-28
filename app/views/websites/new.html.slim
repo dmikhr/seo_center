@@ -1,0 +1,8 @@
+=render 'shared/errors', resource: @website
+
+= form_with model: @website, local: true do |f|
+  p
+    = f.label :url
+    = f.text_field :url
+
+  p= f.submit 'Analyze'
