@@ -14,4 +14,23 @@ feature 'User can submit website for analysis' do
     expect(page).to have_content 'Report for website'
     expect(page).to have_link  'https://stackoverflow.com', href: 'https://stackoverflow.com'
   end
+
+  scenario 'tries to submit empty string', vcr: vcr_options do
+    visit root_path
+
+    click_on 'Analyze'
+
+    expect(page).to have_content "Url can't be blank"
+    expect(page).to_not have_content 'Report for website'
+  end
+
+  scenario 'tries to submit invalid url', vcr: vcr_options do
+    visit root_path
+
+    fill_in 'Url', with: 'sometext'
+    click_on 'Analyze'
+
+    expect(page).to have_content "URL is not valid"
+    expect(page).to_not have_content 'Report for website'
+  end
 end
