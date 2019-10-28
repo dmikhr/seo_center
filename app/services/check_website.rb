@@ -9,8 +9,12 @@ class Services::CheckWebsite
       return unless response_success?(uri)
       www = www?(uri)
       https = https?(uri)
+      robots_txt_contents = robots_txt(uri)
       # scanned_time для хранения разных версий одного сайта
-      website.update!(www: www, https: https, scanned_time: DateTime.now)
+      website.update!(www: www,
+                      https: https,
+                      scanned_time: DateTime.now,
+                      robots_txt: robots_txt_contents.nil? ? nil : robots_txt_contents)
     end
 
     private
@@ -33,6 +37,11 @@ class Services::CheckWebsite
 
       response = http.request(Net::HTTP::Get.new("/"))
       response.is_a?(Net::HTTPSuccess)
+    end
+
+    def robots_txt(uri)
+      robots_txt_uri = URI("#{uri.scheme}://#{uri.host}/robots.txt")
+      Net::HTTP.get_response(uri).body if response_success?(robots_txt_uri)
     end
 
     def response_success?(uri)
