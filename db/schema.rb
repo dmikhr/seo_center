@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_10_30_083924) do
+ActiveRecord::Schema.define(version: 2019_10_30_085210) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -22,6 +22,15 @@ ActiveRecord::Schema.define(version: 2019_10_30_083924) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["page_id"], name: "index_htags_on_page_id"
+  end
+
+  create_table "images", force: :cascade do |t|
+    t.bigint "page_id"
+    t.string "src"
+    t.string "alt"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["page_id"], name: "index_images_on_page_id"
   end
 
   create_table "links", force: :cascade do |t|
@@ -67,6 +76,7 @@ ActiveRecord::Schema.define(version: 2019_10_30_083924) do
   end
 
   add_foreign_key "htags", "pages"
+  add_foreign_key "images", "pages"
   add_foreign_key "links", "pages"
   add_foreign_key "metas", "pages"
   add_foreign_key "pages", "websites"
