@@ -10,10 +10,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_10_30_083215) do
+ActiveRecord::Schema.define(version: 2019_10_30_083924) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "htags", force: :cascade do |t|
+    t.bigint "page_id"
+    t.integer "type"
+    t.string "contents"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["page_id"], name: "index_htags_on_page_id"
+  end
 
   create_table "links", force: :cascade do |t|
     t.bigint "page_id"
@@ -57,6 +66,7 @@ ActiveRecord::Schema.define(version: 2019_10_30_083215) do
     t.string "robots_txt"
   end
 
+  add_foreign_key "htags", "pages"
   add_foreign_key "links", "pages"
   add_foreign_key "metas", "pages"
   add_foreign_key "pages", "websites"
