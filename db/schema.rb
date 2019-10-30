@@ -10,10 +10,21 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_10_30_060801) do
+ActiveRecord::Schema.define(version: 2019_10_30_081209) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "metas", force: :cascade do |t|
+    t.bigint "page_id"
+    t.string "description"
+    t.string "author"
+    t.string "encoding"
+    t.string "keywords"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["page_id"], name: "index_metas_on_page_id"
+  end
 
   create_table "pages", force: :cascade do |t|
     t.bigint "website_id"
@@ -21,6 +32,8 @@ ActiveRecord::Schema.define(version: 2019_10_30_060801) do
     t.string "contents"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "title"
+    t.string "favicon_path"
     t.index ["website_id"], name: "index_pages_on_website_id"
   end
 
@@ -34,5 +47,6 @@ ActiveRecord::Schema.define(version: 2019_10_30_060801) do
     t.string "robots_txt"
   end
 
+  add_foreign_key "metas", "pages"
   add_foreign_key "pages", "websites"
 end
