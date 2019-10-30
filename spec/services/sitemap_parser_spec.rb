@@ -11,9 +11,9 @@ RSpec.describe Services::SitemapParser do
 
   # с использованием vcr sitemap будет загружен 1 раз, затем будет использована локальная копия
   it 'parse sitemap', vcr: vcr_options do
-    sample_urls = ['kamaz', 'gaz', 'kraz', 'freightliner']
+    sample_paths = ['kamaz', 'gaz', 'kraz', 'freightliner']
     sitemap_urls = Services::SitemapParser.call('http://selltruck.ru')
-    url_matches = sample_urls.map { |url| sitemap_urls.include?("http://selltruck.ru/#{url}") }
+    url_matches = sample_paths.map { |url| sitemap_urls.include?("http://selltruck.ru/#{url}") }
 
     expect(url_matches.any?(false)).to be_falsey
   end
