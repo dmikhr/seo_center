@@ -15,7 +15,9 @@ class Services::CheckWebsite
                       https: https,
                       scanned_time: DateTime.now,
                       robots_txt: robots_txt_contents.nil? ? nil : robots_txt_contents)
-    end
+
+      Services::SitemapParser.call(website)
+   end
 
     private
 
