@@ -17,7 +17,7 @@ ActiveRecord::Schema.define(version: 2019_10_30_085210) do
 
   create_table "htags", force: :cascade do |t|
     t.bigint "page_id"
-    t.integer "type"
+    t.integer "level"
     t.string "contents"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
