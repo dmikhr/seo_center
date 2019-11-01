@@ -13,5 +13,11 @@ feature 'User can see report for submitted website' do
     expect(page).to have_content 'www'
     expect(page).to have_content 'https'
     expect(page).to have_link  website.url, href: website.url
+
+    within '.pages_list' do
+      website.pages.each do |website_page|
+        expect(page).to have_link  website_page.path, href: website_page.path
+      end
+    end
   end
 end

@@ -1,7 +1,8 @@
 FactoryBot.define do
   factory :page do
-    website { nil }
-    path { "MyString" }
-    contents { "MyString" }
+    sequence :path do |n|
+      "page_#{n}"
+    end
+    website
   end
 end
