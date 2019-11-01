@@ -21,12 +21,13 @@ class Services::PageStructure
       author = html.css("//meta[@name='author']/@content")
       description = html.css("//meta[@name='description']/@content")
 
-      # FIX: undefined method `metas' for #<Page:0x00007fbbd1e3fe10>
-      # meta = @page.metas.new(encoding: encoding,
-      #                        keywords: keywords,
-      #                        author: author,
-      #                        description: description)
-      # meta.save
+      # build_meta вместо meta.new
+      # https://stackoverflow.com/questions/9170245/undefined-method-new-for-nilnilclass-whats-wrong-with-has-one-nested-assoc
+      meta = @page.build_meta(encoding: encoding,
+                             keywords: keywords,
+                             author: author,
+                             description: description)
+      meta.save
 
       # h tags
       (1..6).each do |i|
