@@ -1,3 +1,12 @@
+require 'sidekiq/web'
+
 Rails.application.routes.draw do
-  # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
+  mount Sidekiq::Web => '/sidekiq'
+
+  root to: 'websites#new'
+
+  resources :websites, only: %i[new create show] do
+    resources :pages, only: %i[create show]
+  end
+
 end

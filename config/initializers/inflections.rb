@@ -14,3 +14,9 @@
 # ActiveSupport::Inflector.inflections(:en) do |inflect|
 #   inflect.acronym 'RESTful'
 # end
+
+# Fix inflection issue: https://github.com/rails/rails/issues/34914
+# https://stackoverflow.com/questions/11192587/rails-data-datum-inflection-issue
+ActiveSupport::Inflector.inflections do |inflect|
+  inflect.irregular 'meta', 'metas'
+ end
