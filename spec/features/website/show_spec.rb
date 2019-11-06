@@ -20,4 +20,16 @@ feature 'User can see report for submitted website' do
       end
     end
   end
+
+  scenario 'analyze page', vcr: vcr_options do
+    visit website_path(website)
+
+    # click_on Analyze для первой страницы сайта
+    path = "/pages/#{website.pages.first.id}/parse"
+    find(:xpath, "//a[@href='#{path}']").click
+    save_and_open_page
+
+    expect(page).to have_content 'Report'
+    expect(page).to have_content website.pages.first.path
+  end
 end

@@ -4,7 +4,7 @@ class Website < ApplicationRecord
 
   validates :url, presence: true, url: true
 
-  after_create :check_website
+  after_create :check_website, unless: :skip_callbacks
 
   private
 

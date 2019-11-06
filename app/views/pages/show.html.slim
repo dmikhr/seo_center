@@ -1,0 +1,25 @@
+p Report
+p= "Page path: #{@page.path}"
+p= "Title: #{@page.title}"
+
+p Meta data
+.meta
+  = show_item('description', @page.meta.description)
+  = show_item('author', @page.meta.author)
+  = show_item('encoding', @page.meta.encoding)
+  = show_item('keywords', @page.meta.keywords)
+
+p Links
+.links
+  - if @page.links.present?
+    - @page.links.each do |link|
+      p= "Anchor: #{link.anchor} url: #{link.url} internal: #{link.internal}"
+
+p Images
+.images
+  - if @page.images.present?
+    - @page.images.each do |image|
+      p= "src: #{image.src} alt: #{image.src}"
+
+p H tags
+.htags
