@@ -5,12 +5,8 @@ class Ability
 
   def initialize(user)
     @user = user
-    return guest_abilities unless user
+    return unless user
     user.admin? ? admin_abilities : user_abilities
-  end
-
-  def guest_abilities
-    can :read, :all
   end
 
   def admin_abilities
@@ -18,7 +14,8 @@ class Ability
   end
 
   def user_abilities
-    guest_abilities
-    can :create, [Website]
+    can :read, :all
+    can :create, Website
+    can :parse, Page
   end
 end

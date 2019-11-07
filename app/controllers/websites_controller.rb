@@ -2,8 +2,7 @@ class WebsitesController < ApplicationController
 
   before_action :load_website, only: %i[show]
 
-  skip_authorization_check
-  # authorize_resource
+  authorize_resource
 
   def new
     @website = Website.new

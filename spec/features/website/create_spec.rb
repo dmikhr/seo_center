@@ -42,7 +42,7 @@ feature 'User can submit website for analysis' do
 
   scenario 'Unauthenticated user tries to submit website' do
     visit root_path
-    # save_and_open_page
-    # expect(page).to_not have_content 'Ask question'
+
+    expect(page).to have_content 'Log in'
   end
 end
