@@ -19,7 +19,13 @@ p= "Title: #{@page.title}"
 .links
   h3 Links
   - if @page.links.present?
+    - links = @page.links.order(internal: :desc)
+    - link_type = -1
     - @page.links.order(internal: :desc).each do |link|
+      - if link_type != link.internal
+        - link_type = link.internal
+        p
+          b= link_type(link.internal).capitalize
       p= "Anchor: #{link.anchor} url: #{link.url} type: #{link_type(link.internal)}"
 
 .images
@@ -32,7 +38,6 @@ p= "Title: #{@page.title}"
   h3 H tags
   - if @page.htags.present?
     p= htags_stats
-    - htags = @page.htags.order(:level)
     - level = -1
     - @page.htags.order(:level).each do |htag|
       - if htag.level != level
