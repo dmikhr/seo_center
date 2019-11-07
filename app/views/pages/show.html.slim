@@ -1,25 +1,42 @@
 p Report
+p= "Website #{@page.website.url}"
 p= "Page path: #{@page.path}"
 p= "Title: #{@page.title}"
 
-p Meta data
+.stats
+  h3 Page stats
+  p= "H tags: #{htags_stats}"
+  p= "Links: #{links_stats}"
+  p= "Images: #{@page.images.size}"
+
 .meta
+  h3 Meta data
   = show_item('description', @page.meta.description)
   = show_item('author', @page.meta.author)
   = show_item('encoding', @page.meta.encoding)
   = show_item('keywords', @page.meta.keywords)
 
-p Links
 .links
+  h3 Links
   - if @page.links.present?
-    - @page.links.each do |link|
-      p= "Anchor: #{link.anchor} url: #{link.url} internal: #{link.internal}"
+    - @page.links.order(internal: :desc).each do |link|
+      p= "Anchor: #{link.anchor} url: #{link.url} type: #{link_type(link.internal)}"
 
-p Images
 .images
+  h3 Images
   - if @page.images.present?
     - @page.images.each do |image|
-      p= "src: #{image.src} alt: #{image.src}"
+      p= "src: #{image.src} #{show_item('alt', image.alt)}"
 
-p H tags
 .htags
+  h3 H tags
+  - if @page.htags.present?
+    p= htags_stats
+    - htags = @page.htags.order(:level)
+    - level = -1
+    - @page.htags.order(:level).each do |htag|
+      - if htag.level != level
+        - level = htag.level
+        p
+          b= "H#{level}"
+      p= htag.contents

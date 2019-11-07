@@ -13,5 +13,6 @@ RSpec.describe Services::PageStructure do
   it 'parse html page', vcr: vcr_options do
     page.contents = file_fixture("delphsite.html").read
     Services::PageStructure.call(page)
+    # byebug
   end
 end
