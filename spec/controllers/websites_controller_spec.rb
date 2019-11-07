@@ -2,7 +2,9 @@ require 'rails_helper'
 
 RSpec.describe WebsitesController, type: :controller do
   let(:user) { create(:user) }
+  let(:another_user) { create(:user) }
   let(:website) { create(:website, user: user) }
+  let(:website2) { create(:website, user: another_user) }
 
   vcr_options = { :record => :new_episodes }
 
@@ -22,10 +24,14 @@ RSpec.describe WebsitesController, type: :controller do
     end
 
     describe 'GET #show', vcr: vcr_options do
-      before { get :show, params: { id: website } }
-
       it 'renders show view' do
+        get :show, params: { id: website }
         expect(response).to render_template :show
+      end
+
+      it 'tries to view website of another user' do
+        get :show, params: { id: website2 }
+        expect(response).to redirect_to root_path
       end
     end
 

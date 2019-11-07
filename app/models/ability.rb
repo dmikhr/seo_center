@@ -14,8 +14,7 @@ class Ability
   end
 
   def user_abilities
-    can :read, :all
-    can :create, Website
-    can :parse, Page
+    can :manage, Website, user: @user
+    can :manage, Page, website: { user: @user }
   end
 end

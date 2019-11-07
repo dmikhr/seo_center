@@ -2,8 +2,11 @@ require 'rails_helper'
 
 RSpec.describe PagesController, type: :controller do
   let(:user) { create(:user) }
+  let(:another_user) { create(:user) }
   let(:website) { create(:website, user: user) }
+  let(:website2) { create(:website, user: another_user) }
   let(:page) { create(:page, website: website, contents: file_fixture("delphsite.html").read) }
+  let(:page2) { create(:page, website: website2, contents: file_fixture("delphsite.html").read) }
 
   vcr_options = { :record => :new_episodes }
 
@@ -12,11 +15,14 @@ RSpec.describe PagesController, type: :controller do
 
     describe 'GET #show', vcr: vcr_options do
 
-
-      before { get :show, params: { id: page } }
-
       it 'renders show view' do
+        get :show, params: { id: page }
         expect(response).to render_template :show
+      end
+
+      it 'tries to view page of a website from another user' do
+        get :show, params: { id: page2 }
+        expect(response).to redirect_to root_path
       end
     end
 
@@ -35,6 +41,12 @@ RSpec.describe PagesController, type: :controller do
 
       it 'tries to parse nonexistent page' do
         expect { post :parse, params: { id: 111112222 } }.to raise_exception ActiveRecord::RecordNotFound
+      end
+
+      it 'tries to parse page from website of another user' do
+        [Image, Htag, Link].each do |model|
+          expect { post :parse, params: { id: page2 } }.to_not change(model, :count)
+        end
       end
     end
   end

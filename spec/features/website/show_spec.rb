@@ -3,6 +3,8 @@ require 'rails_helper'
 feature 'User can see report for submitted website' do
   given(:user) { create(:user) }
   given(:website) { create(:website, user: user) }
+  given(:another_user) { create(:user) }
+  given(:website2) { create(:website, user: another_user) }
   given(:website_in_progress) { create(:website, :in_progress) }
 
   vcr_options = { :record => :new_episodes }
@@ -23,6 +25,12 @@ feature 'User can see report for submitted website' do
           expect(page).to have_link  website_page.path, href: website_page.path
         end
       end
+    end
+
+    scenario 'tries to see report for website of another user', vcr: vcr_options do
+      visit website_path(website2)
+
+      expect(page).to have_content 'You are not authorized to access this page'
     end
 
     scenario 'analyze page', vcr: vcr_options do
