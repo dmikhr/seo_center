@@ -13,6 +13,7 @@ feature 'User can submit website for analysis' do
 
     expect(page).to have_content 'Report for website'
     expect(page).to have_link  website.url, href: website.url
+    # save_and_open_page
   end
 
   scenario 'tries to submit empty string'do

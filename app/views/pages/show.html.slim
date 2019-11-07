@@ -1,10 +1,10 @@
-p Report
+h2 Report
 p= "Website #{@page.website.url}"
 p= "Page path: #{@page.path}"
 p= "Title: #{@page.title}"
 
 .stats
-  h3[class="h1"] Page stats
+  h3 Page stats
   p= "H tags: #{htags_stats}"
   p= "Links: #{links_stats}"
   p= "Images: #{@page.images.size}"
@@ -37,7 +37,6 @@ p= "Title: #{@page.title}"
 .htags
   h3 H tags
   - if @page.htags.present?
-    p= htags_stats
     - level = -1
     - @page.htags.order(:level).each do |htag|
       - if htag.level != level

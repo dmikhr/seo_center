@@ -26,7 +26,10 @@ feature 'User can see report for submitted website' do
 
     # click_on Analyze для первой страницы сайта
     path = "/pages/#{website.pages.first.id}/parse"
+    # for link
     find(:xpath, "//a[@href='#{path}']").click
+    # for button
+    # find(:xpath, "//form[@action='#{path}']").click
     # save_and_open_page
 
     expect(page).to have_content 'Report'
