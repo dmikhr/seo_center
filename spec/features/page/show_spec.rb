@@ -2,10 +2,10 @@
 #
 # # без этих строк этот тест падает с ошибкой undefined method `visit'
 # # https://stackoverflow.com/questions/40293144/undefined-method-visit-for-object-nomethoderror-capybara-rspec
-# require 'capybara/dsl'
-# include Capybara::DSL
-#
-# ActiveRecord::Base.skip_callbacks = false
+# # require 'capybara/dsl'
+# # include Capybara::DSL
+# #
+# # ActiveRecord::Base.skip_callbacks = false
 #
 # feature 'see report for page' do
 #   # given(:website) { create(:website) }

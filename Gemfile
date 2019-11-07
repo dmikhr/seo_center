@@ -40,6 +40,9 @@ gem 'slim-rails'
 gem 'sidekiq', '~> 5.1'
 gem 'sinatra', require: false
 
+# AUTH
+gem 'devise'
+
 # UI
 gem 'jquery-rails'
 gem 'bootstrap', '~> 4.3.1'

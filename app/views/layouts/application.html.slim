@@ -12,5 +12,9 @@ html
     = javascript_include_tag 'application', 'data-turbolinks-track': 'reload'
 
   body
+    p class="notice"
+      = notice
+    p class="alert"
+      = alert
     = render 'shared/nav'
     = yield
