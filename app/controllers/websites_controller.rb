@@ -10,6 +10,7 @@ class WebsitesController < ApplicationController
 
   def create
     @website = Website.new(website_params)
+    @website.user = current_user
     if @website.save
       redirect_to @website, notice: "Website was submitted for check"
     else

@@ -1,9 +1,9 @@
 require 'rails_helper'
 
 RSpec.describe PagesController, type: :controller do
-  let(:website) { create(:website) }
-  let(:page) { create(:page, website: website, contents: file_fixture("delphsite.html").read) }
   let(:user) { create(:user) }
+  let(:website) { create(:website, user: user) }
+  let(:page) { create(:page, website: website, contents: file_fixture("delphsite.html").read) }
 
   vcr_options = { :record => :new_episodes }
 

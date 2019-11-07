@@ -1,5 +1,5 @@
 class Website < ApplicationRecord
-
+  belongs_to :user
   has_many :pages, dependent: :destroy
 
   validates :url, presence: true, url: true

@@ -1,7 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe Services::SitemapParser do
-  let!(:website) { create(:website, url: 'http://ttie.ru') }
+  let(:user) { create(:user) }
+  let!(:website) { create(:website, url: 'http://ttie.ru', user: user) }
   vcr_options = { :record => :new_episodes }
 
   it 'call sitemap service', vcr: vcr_options do

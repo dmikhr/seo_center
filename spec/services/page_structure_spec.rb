@@ -1,7 +1,9 @@
 require 'rails_helper'
 
 RSpec.describe Services::PageStructure do
-  let(:page) { create(:page) }
+  let(:user) { create(:user) }
+  let(:website) { build(:website, user: user) }
+  let(:page) { create(:page, website: website) }
 
   vcr_options = { :record => :new_episodes }
 

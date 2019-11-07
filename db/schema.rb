@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_11_07_074006) do
+ActiveRecord::Schema.define(version: 2019_11_07_114011) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -86,6 +86,8 @@ ActiveRecord::Schema.define(version: 2019_11_07_074006) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "robots_txt"
+    t.bigint "user_id"
+    t.index ["user_id"], name: "index_websites_on_user_id"
   end
 
   add_foreign_key "htags", "pages"
@@ -93,4 +95,5 @@ ActiveRecord::Schema.define(version: 2019_11_07_074006) do
   add_foreign_key "links", "pages"
   add_foreign_key "metas", "pages"
   add_foreign_key "pages", "websites"
+  add_foreign_key "websites", "users"
 end

@@ -1,8 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe WebsitesController, type: :controller do
-  let(:website) { create(:website) }
   let(:user) { create(:user) }
+  let(:website) { create(:website, user: user) }
 
   vcr_options = { :record => :new_episodes }
 

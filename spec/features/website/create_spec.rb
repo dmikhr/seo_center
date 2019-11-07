@@ -1,8 +1,8 @@
 require 'rails_helper'
 
 feature 'User can submit website for analysis' do
-  given(:website) { create(:website) }
   given(:user) { create(:user) }
+  given(:website) { create(:website, user: user) }
   # https://relishapp.com/vcr/vcr/v/2-9-3/docs/record-modes/new-episodes
   vcr_options = { :record => :new_episodes }
 
