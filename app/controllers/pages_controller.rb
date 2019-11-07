@@ -2,6 +2,9 @@ class PagesController < ApplicationController
 
   before_action :load_page, only: %i[parse show]
 
+  skip_authorization_check
+  # authorize_resource
+
   def parse
     Services::PageStructure.call(@page)
     redirect_to @page

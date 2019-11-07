@@ -42,6 +42,7 @@ gem 'sinatra', require: false
 
 # AUTH
 gem 'devise'
+gem 'cancancan'
 
 # UI
 gem 'jquery-rails'
