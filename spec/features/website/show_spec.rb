@@ -9,10 +9,10 @@ feature 'User can see report for submitted website' do
   given!(:website) { create(:website, url: 'http://website.com', user: user) }
   given!(:website2) { create(:website, url: 'http://website2.com', user: user) }
   given!(:pages) { create_list(:page, 3, website: website) }
-  given!(:website_old1) { create(:website,
+  given!(:website_old1) { create(:website, url: 'http://website.com',
                                  scanned_time: Time.at(Time.now.to_i - 10000),
                                  user: user) }
-  given!(:website_old2) { create(:website,
+  given!(:website_old2) { create(:website, url: 'http://website.com',
                                   scanned_time: Time.at(Time.now.to_i - 20000),
                                   user: user) }
   given(:another_user) { create(:user) }
@@ -34,18 +34,6 @@ feature 'User can see report for submitted website' do
           expect(page).to have_link  website_page.path, href: website_page.path
         end
       end
-    end
-
-    scenario 'delete report' do
-      visit website_path(website)
-
-      click_on 'Delete report'
-
-      within '.websites' do
-        expect(page).to_not have_link  website.url, href: website_path(website)
-        expect(page).to have_link  website2.url, href: website_path(website2)
-      end
-      expect(page).to_not have_content  'Delete report'
     end
 
     scenario 'tries to see report for website of another user' do
@@ -88,18 +76,6 @@ feature 'User can see report for submitted website' do
           expect(page).to have_link  website_page.path, href: website_page.path
         end
       end
-    end
-
-    scenario 'delete any report' do
-      visit website_path(website)
-
-      click_on 'Delete report'
-
-      within '.websites' do
-        expect(page).to_not have_link  website.url, href: website_path(website)
-        expect(page).to have_link  website2.url, href: website_path(website2)
-      end
-      expect(page).to_not have_content  'Delete report'
     end
 
     scenario 'analyze any page' do

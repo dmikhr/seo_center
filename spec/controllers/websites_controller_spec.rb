@@ -101,6 +101,22 @@ RSpec.describe WebsitesController, type: :controller do
         expect(assigns(:website)).to_not be_destroyed
       end
     end
+
+    describe 'DELETE #destroy_all_versions' do
+      it "can delete all versions of own website " do
+        expect { delete :destroy_all_versions, params: { id: website } }.to change(Website, :count).by(-2)
+      end
+
+      it 'redirects to list of websites' do
+        delete :destroy_all_versions, params: { id: website }
+        expect(response).to redirect_to websites_path
+      end
+
+      it "can't delete website of another user" do
+        delete :destroy_all_versions, params: { id: website_another }
+        expect(assigns(:website)).to_not be_destroyed
+      end
+    end
   end
 
   describe 'Admin' do
@@ -133,6 +149,17 @@ RSpec.describe WebsitesController, type: :controller do
 
       it 'redirects to list of websites' do
         delete :destroy, params: { id: website }
+        expect(response).to redirect_to websites_path
+      end
+    end
+
+    describe 'DELETE #destroy_all_versions' do
+      it "can delete all versions of any website " do
+        expect { delete :destroy_all_versions, params: { id: website } }.to change(Website, :count).by(-2)
+      end
+
+      it 'redirects to list of websites' do
+        delete :destroy_all_versions, params: { id: website }
         expect(response).to redirect_to websites_path
       end
     end
@@ -180,6 +207,17 @@ RSpec.describe WebsitesController, type: :controller do
 
       it 'redirects to login page' do
         delete :destroy, params: { id: website }
+        expect(response).to redirect_to new_user_session_path
+      end
+    end
+
+    describe 'DELETE #destroy_all_versions' do
+      it "can't delete all versions of any website " do
+        expect { delete :destroy_all_versions, params: { id: website } }.to_not change(Website, :count)
+      end
+
+      it 'redirects to list of websites' do
+        delete :destroy_all_versions, params: { id: website }
         expect(response).to redirect_to new_user_session_path
       end
     end

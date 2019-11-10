@@ -1,6 +1,6 @@
 class WebsitesController < ApplicationController
 
-  before_action :load_website, only: %i[show destroy]
+  before_action :load_website, only: %i[show destroy destroy_all_versions]
 
   authorize_resource
 
@@ -26,6 +26,17 @@ class WebsitesController < ApplicationController
 
   def destroy
     @website.destroy
+    redirect_to websites_path
+  end
+
+  def destroy_all_versions
+    websites = Website.where(url: @website.url)
+    Website.transaction do
+      websites.each do |website|
+        website.destroy!
+      end
+    end
+
     redirect_to websites_path
   end
 
