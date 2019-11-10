@@ -2,12 +2,13 @@ p= "Report for website: #{link_to @website.url, @website.url, target: '_blank'}"
 -if @website.www.nil?
   p Analysis is in progress...
 -else
+  p= "Scanned time: #{@website.scanned_time.strftime("%Y-%m-%d %H:%M:%S UTC")}"
   - if can?(:destroy, @website)
     p= button_to 'Delete report', website_path(@website), data: { confirm: "Delete report for #{@website.url}?" }, method: :delete
   - if can?(:destroy_all_versions, @website)
     p= button_to 'Delete all history', destroy_all_versions_website_path(@website), data: { confirm: "Delete all reports for #{@website.url}?" }, method: :delete
   p Select version
-  p= collection_select :website, :scanned_time, website_versions, :id, :scanned_time
+  p= select_tag "website_scanned_time", options_from_collection_for_select(website_versions, :id, :scanned_time, params[:id]), onchange: 'redirectToReport(this.value)'
   p= "www: #{boolean_to_readable(@website.www)}"
   p= "https: #{boolean_to_readable(@website.https)}"
   p= "number of pages: #{@website.pages.size}"

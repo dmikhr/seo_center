@@ -18,7 +18,7 @@ feature 'User can see report for submitted website' do
   given(:another_user) { create(:user) }
   given!(:website_another) { create(:website, url: 'http://website_another.com', user: another_user) }
 
-  describe 'Authenticated user' do
+  describe 'Authenticated user', js: true do
     background { sign_in(user) }
 
     scenario 'see report' do
@@ -34,6 +34,15 @@ feature 'User can see report for submitted website' do
           expect(page).to have_link  website_page.path, href: website_page.path
         end
       end
+    end
+
+    scenario 'select version of report' do
+      visit website_path(website)
+
+      expect(page).to have_content "Scanned time: #{website.scanned_time.strftime("%Y-%m-%d %H:%M:%S")} UTC"
+      # выбрать из выпадающего списка другуию версию отчета для этого сайта
+      select website_old1.scanned_time.strftime("%Y-%m-%d %H:%M:%S UTC"), from: "website_scanned_time"
+      expect(page).to have_content "Scanned time: #{website_old1.scanned_time.strftime("%Y-%m-%d %H:%M:%S")} UTC"
     end
 
     scenario 'tries to see report for website of another user' do
