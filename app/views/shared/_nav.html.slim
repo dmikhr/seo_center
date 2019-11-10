@@ -3,6 +3,8 @@ nav class="navbar navbar-light bg-light"
     = link_to "SEO Center", root_path
 
   - if current_user.present?
+    = link_to websites_list_caption, websites_path
+    span>
     = link_to 'Log Out', destroy_user_session_path, method: :delete
   - else
     = link_to 'Log In', new_user_session_path
