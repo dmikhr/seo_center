@@ -5,7 +5,6 @@ feature 'User can see report for submitted website' do
   given(:website) { create(:website, user: user) }
   given(:another_user) { create(:user) }
   given(:website2) { create(:website, user: another_user) }
-  given(:website_in_progress) { create(:website, :in_progress) }
 
   vcr_options = { :record => :new_episodes }
 

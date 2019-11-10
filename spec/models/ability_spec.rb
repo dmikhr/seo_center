@@ -1,10 +1,10 @@
 require 'rails_helper'
 require "cancan/matchers"
 
-vcr_options = { :record => :new_episodes }
-
-describe Ability, type: :model, vcr: vcr_options do
+describe Ability, type: :model do
   subject(:ability) { Ability.new(user) }
+  # stub callback with parser call
+  before { allow_any_instance_of(Website).to receive(:check_website) }
 
   describe 'for admin' do
     let(:user) { create :user, admin: true }

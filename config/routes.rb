@@ -6,7 +6,7 @@ Rails.application.routes.draw do
 
   root to: 'websites#new'
 
-  resources :websites, only: %i[new create show] do
+  resources :websites, only: %i[index new create show] do
     resources :pages, shallow: true, only: %i[show] do
       post :parse, on: :member
     end

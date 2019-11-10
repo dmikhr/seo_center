@@ -20,6 +20,10 @@ class WebsitesController < ApplicationController
 
   def show; end
 
+  def index
+    @websites = scanned_latest
+  end
+
   private
 
   def website_params
@@ -28,5 +32,19 @@ class WebsitesController < ApplicationController
 
   def load_website
     @website = Website.find(params[:id])
+  end
+
+  def scanned_latest
+    websites = []
+
+    if current_user.admin?
+      urls = Website.all.distinct.pluck(:url)
+      urls.each { |url| websites << Website.where(url: url).order(scanned_time: :desc).first }
+    else
+      urls = Website.where(user: current_user).distinct.pluck(:url)
+      urls.each { |url| websites << Website.where(user: current_user, url: url).order(scanned_time: :desc).first }
+    end
+
+    websites
   end
 end

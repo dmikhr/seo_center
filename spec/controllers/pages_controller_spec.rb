@@ -1,19 +1,20 @@
 require 'rails_helper'
 
 RSpec.describe PagesController, type: :controller do
+
+  before { allow_any_instance_of(Website).to receive(:check_website) }
+
   let(:user) { create(:user) }
   let(:another_user) { create(:user) }
   let(:website) { create(:website, user: user) }
-  let(:website2) { create(:website, user: another_user) }
+  let(:website_another) { create(:website, user: another_user) }
   let(:page) { create(:page, website: website, contents: file_fixture("delphsite.html").read) }
-  let(:page2) { create(:page, website: website2, contents: file_fixture("delphsite.html").read) }
-
-  vcr_options = { :record => :new_episodes }
+  let(:page_another) { create(:page, website: website_another, contents: file_fixture("delphsite.html").read) }
 
   describe 'User' do
     before { login(user) }
 
-    describe 'GET #show', vcr: vcr_options do
+    describe 'GET #show' do
 
       it 'renders show view' do
         get :show, params: { id: page }
@@ -21,12 +22,12 @@ RSpec.describe PagesController, type: :controller do
       end
 
       it 'tries to view page of a website from another user' do
-        get :show, params: { id: page2 }
+        get :show, params: { id: page_another }
         expect(response).to redirect_to root_path
       end
     end
 
-    describe 'POST #parse', vcr: vcr_options do
+    describe 'POST #parse' do
 
       it 'save parsing results' do
         [Image, Htag, Link].each do |model|
@@ -45,7 +46,7 @@ RSpec.describe PagesController, type: :controller do
 
       it 'tries to parse page from website of another user' do
         [Image, Htag, Link].each do |model|
-          expect { post :parse, params: { id: page2 } }.to_not change(model, :count)
+          expect { post :parse, params: { id: page_another } }.to_not change(model, :count)
         end
       end
     end
@@ -53,7 +54,7 @@ RSpec.describe PagesController, type: :controller do
 
   describe 'Guest' do
 
-    describe 'GET #show', vcr: vcr_options do
+    describe 'GET #show' do
 
       before { get :show, params: { id: page } }
 
@@ -68,7 +69,7 @@ RSpec.describe PagesController, type: :controller do
       end
     end
 
-    describe 'POST #parse', vcr: vcr_options do
+    describe 'POST #parse' do
 
       it 'redirects to login page' do
         post :parse, params: { id: page }
