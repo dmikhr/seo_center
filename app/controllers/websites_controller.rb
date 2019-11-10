@@ -1,6 +1,6 @@
 class WebsitesController < ApplicationController
 
-  before_action :load_website, only: %i[show]
+  before_action :load_website, only: %i[show destroy]
 
   authorize_resource
 
@@ -22,6 +22,11 @@ class WebsitesController < ApplicationController
 
   def index
     @websites = scanned_latest
+  end
+
+  def destroy
+    @website.destroy
+    redirect_to websites_path
   end
 
   private

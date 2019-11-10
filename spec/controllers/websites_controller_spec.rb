@@ -8,6 +8,7 @@ RSpec.describe WebsitesController, type: :controller do
   let(:another_user) { create(:user) }
   let(:admin) { create(:user, admin: true) }
   let!(:website) { create(:website, scanned_time: Time.at(Time.now.to_i - 1000), user: user) }
+  let!(:page) { create(:page, website: website) }
   let!(:website_newest) { create(:website, user: user) }
   let!(:website2) { create(:website, url: 'http://website2.local', user: user) }
   let!(:website_another) { create(:website, url: 'http://another.local', user: another_user) }
@@ -79,6 +80,27 @@ RSpec.describe WebsitesController, type: :controller do
         end
       end
     end
+
+    describe 'DELETE #destroy' do
+      it "can delete own website" do
+        delete :destroy, params: { id: website }
+        expect(assigns(:website)).to be_destroyed
+      end
+
+      it "can't find page of deleted website" do
+        expect { delete :destroy, params: { id: website } }.to change(Page, :count).by(-1)
+      end
+
+      it 'redirects to list of websites' do
+        delete :destroy, params: { id: website }
+        expect(response).to redirect_to websites_path
+      end
+
+      it "can't delete website of another user" do
+        delete :destroy, params: { id: website_another }
+        expect(assigns(:website)).to_not be_destroyed
+      end
+    end
   end
 
   describe 'Admin' do
@@ -100,6 +122,18 @@ RSpec.describe WebsitesController, type: :controller do
       it 'can view website of another user' do
         get :show, params: { id: website }
         expect(response).to render_template :show
+      end
+    end
+
+    describe 'DELETE #destroy' do
+      it "can delete website of another user" do
+        delete :destroy, params: { id: website }
+        expect(assigns(:website)).to be_destroyed
+      end
+
+      it 'redirects to list of websites' do
+        delete :destroy, params: { id: website }
+        expect(response).to redirect_to websites_path
       end
     end
   end
@@ -136,6 +170,17 @@ RSpec.describe WebsitesController, type: :controller do
           post :create, params: { website: attributes_for(:website) }
           expect(response).to redirect_to new_user_session_path
         end
+      end
+    end
+
+    describe 'DELETE #destroy' do
+      it "can't delete website" do
+        expect { delete :destroy, params: { id: website } }.to_not change(Website, :count)
+      end
+
+      it 'redirects to login page' do
+        delete :destroy, params: { id: website }
+        expect(response).to redirect_to new_user_session_path
       end
     end
   end
