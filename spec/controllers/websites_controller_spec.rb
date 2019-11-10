@@ -88,7 +88,7 @@ RSpec.describe WebsitesController, type: :controller do
       before { get :index }
 
       it 'populates an array of websites of all users' do
-        expect(assigns(:websites)).to eq([website2, website_another, website_newest])
+        expect(assigns(:websites)).to contain_exactly(website2, website_another, website_newest)
       end
 
       it 'renders index view' do

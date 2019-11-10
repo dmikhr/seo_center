@@ -1,17 +1,18 @@
 require 'rails_helper'
 
 RSpec.describe Services::SitemapParser do
-  let(:user) { create(:user) }
-  let!(:website) { create(:website, url: 'http://ttie.ru', user: user) }
-  vcr_options = { :record => :new_episodes }
 
-  it 'call sitemap service', vcr: vcr_options do
+  before { allow_any_instance_of(Website).to receive(:check_website) }
+
+  let(:user) { create(:user) }
+  let!(:website) { create(:website, user: user) }
+
+  it 'call sitemap service' do
     expect(Services::SitemapParser).to receive(:call).with(website)
     Services::SitemapParser.call(website)
   end
 
-  # с использованием vcr sitemap будет загружен 1 раз, затем будет использована локальная копия
-  it 'parse sitemap', vcr: vcr_options do
+  it 'parse sitemap' do
     sample_paths = ['about-ttie', 'contacts', 'publications', 'binary']
 
     Services::SitemapParser.call(website)

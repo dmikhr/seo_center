@@ -1,17 +1,25 @@
 require 'rails_helper'
 
 feature 'User can see report for submitted website' do
-  given(:user) { create(:user) }
-  given(:website) { create(:website, user: user) }
-  given(:another_user) { create(:user) }
-  given(:website2) { create(:website, user: another_user) }
 
-  vcr_options = { :record => :new_episodes }
+  before { allow_any_instance_of(Website).to receive(:check_website) }
+
+  given(:user) { create(:user) }
+  given!(:website) { create(:website, user: user) }
+  given!(:pages) { create_list(:page, 3, website: website) }
+  given!(:website_old1) { create(:website,
+                                 scanned_time: Time.at(Time.now.to_i - 10000),
+                                 user: user) }
+  given!(:website_old2) { create(:website,
+                                  scanned_time: Time.at(Time.now.to_i - 20000),
+                                  user: user) }
+  given(:another_user) { create(:user) }
+  given!(:website2) { create(:website, user: another_user) }
 
   describe 'Authenticated user' do
     background { sign_in(user) }
 
-    scenario 'see report', vcr: vcr_options do
+    scenario 'see report' do
       visit website_path(website)
 
       expect(page).to have_content 'Report for website'
@@ -26,14 +34,16 @@ feature 'User can see report for submitted website' do
       end
     end
 
-    scenario 'tries to see report for website of another user', vcr: vcr_options do
+    scenario 'tries to see report for website of another user' do
       visit website_path(website2)
 
       expect(page).to have_content 'You are not authorized to access this page'
     end
 
-    scenario 'analyze page', vcr: vcr_options do
+    scenario 'analyze page' do
       visit website_path(website)
+
+      website.pages.first.contents = file_fixture("delphsite.html").read
 
       # click_on Analyze для первой страницы сайта
       path = "/pages/#{website.pages.first.id}/parse"
@@ -49,7 +59,7 @@ feature 'User can see report for submitted website' do
   end
 
   describe 'Guest' do
-    scenario 'cannot see report', vcr: vcr_options do
+    scenario 'cannot see report' do
       visit website_path(website)
 
       expect(page).to_not have_content 'Report for website'
@@ -60,7 +70,7 @@ feature 'User can see report for submitted website' do
       expect(page).to have_content 'Log in'
     end
 
-    scenario 'tries to access website page', vcr: vcr_options do
+    scenario 'tries to access website page' do
       visit website_path(website)
 
       expect(page).to have_content 'Log in'

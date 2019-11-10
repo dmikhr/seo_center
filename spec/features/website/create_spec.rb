@@ -1,15 +1,16 @@
 require 'rails_helper'
 
 feature 'User can submit website for analysis' do
+
+  before { allow_any_instance_of(Website).to receive(:check_website) }
+
   given(:user) { create(:user) }
   given(:website) { create(:website, user: user) }
-  # https://relishapp.com/vcr/vcr/v/2-9-3/docs/record-modes/new-episodes
-  vcr_options = { :record => :new_episodes }
 
   describe 'Authenticated user' do
     background { sign_in(user) }
 
-    scenario 'submit website', vcr: vcr_options do
+    scenario 'submit website' do
       visit root_path
 
       fill_in 'Url', with: website.url
@@ -17,10 +18,9 @@ feature 'User can submit website for analysis' do
 
       expect(page).to have_content 'Report for website'
       expect(page).to have_link  website.url, href: website.url
-      # save_and_open_page
     end
 
-    scenario 'tries to submit empty string'do
+    scenario 'tries to submit empty string' do
       visit root_path
 
       click_on 'Analyze'
