@@ -3,9 +3,9 @@ p= "Report for website: #{link_to @website.url, @website.url, target: '_blank'}"
   p Analysis is in progress...
 -else
   - if can?(:destroy, @website)
-    p= button_to 'Delete report', website_path(@website), method: :delete
+    p= button_to 'Delete report', website_path(@website), data: { confirm: "Delete report for #{@website.url}?" }, method: :delete
   - if can?(:destroy_all_versions, @website)
-    p= button_to 'Delete all history', destroy_all_versions_website_path(@website), method: :delete
+    p= button_to 'Delete all history', destroy_all_versions_website_path(@website), data: { confirm: "Delete all reports for #{@website.url}?" }, method: :delete
   p Select version
   p= collection_select :website, :scanned_time, website_versions, :id, :scanned_time
   p= "www: #{boolean_to_readable(@website.www)}"
