@@ -70,7 +70,7 @@ class Services::PageStructure
     end
 
     def internal_link?(href)
-      href.to_s[0] == '/' || href.to_s.start_with?(@page.website.url) ? true : false
+      href.to_s[0] == '/' || href.to_s[0] == '#' || href.to_s.start_with?(@page.website.url) ? true : false
     end
   end
 end
