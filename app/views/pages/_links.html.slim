@@ -1,0 +1,10 @@
+table class="table table-striped"
+  tr
+    th Anchor
+    th URL
+    th Type
+  - @page.links.order(internal: :desc).each do |link|
+    tr
+      td= link.anchor
+      td= link.url
+      td= link_type(link.internal)

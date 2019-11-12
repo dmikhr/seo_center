@@ -1,16 +1,14 @@
 module PagesHelper
-  def show_item(caption, item)
-    "#{caption}: #{item}" if item.present?
-  end
-
   def link_type(value)
     value ? "internal" : "outbound"
   end
 
-  def links_stats
-    internal_num = @page.links.select { |link| link.internal == true }.size
-    outbound_num = @page.links.select { |link| link.internal == false }.size
-    "Internal: #{internal_num} | Outbound: #{outbound_num}"
+  def links_internal
+    @page.links.select { |link| link.internal == true }.size
+  end
+
+  def links_outbound
+    @page.links.select { |link| link.internal == false }.size
   end
 
   def htags_stats

@@ -10,7 +10,8 @@ feature 'Admin can see a list of users' do
 
     scenario 'see all users' do
       visit admin_users_path
-
+      # save_and_open_page
+      # save_and_open_screenshot
       users.each { |user| expect(page).to have_content user.email }
     end
   end

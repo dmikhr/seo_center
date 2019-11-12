@@ -1,4 +1,9 @@
 h3 Users
-ul
+table class="table table-striped"
+  tr
+    th User
+    th Websites submitted
   - @users.each do |user|
-    li= "#{user.email} Websites: #{Website.scanned_latest(user).size}"
+      tr
+        td class="align-middle"= user.email
+        td class="align-middle"= Website.scanned_latest(user).size

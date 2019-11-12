@@ -1,0 +1,8 @@
+table class="table table-striped"
+  tr
+    th src
+    th alt
+  - @page.images.each do |image|
+    tr
+      td= image.src
+      td= image.alt

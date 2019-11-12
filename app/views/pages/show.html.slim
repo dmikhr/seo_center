@@ -1,46 +1,26 @@
 h2 Report
-p= "Website #{@page.website.url}"
-p= "Page path: #{@page.path}"
-p= "Title: #{@page.title}"
+= render 'basic_info'
 
 .stats
   h3 Page stats
-  p= "H tags: #{htags_stats}"
-  p= "Links: #{links_stats}"
-  p= "Images: #{@page.images.size}"
+  = render 'page_stats'
 
 .meta
   h3 Meta data
-  = show_item('description', @page.meta.description)
-  = show_item('author', @page.meta.author)
-  = show_item('encoding', @page.meta.encoding)
-  = show_item('keywords', @page.meta.keywords)
+  = render 'meta_data'
 
 .links
-  h3 Links
   - if @page.links.present?
-    - links = @page.links.order(internal: :desc)
-    - link_type = -1
-    - @page.links.order(internal: :desc).each do |link|
-      - if link_type != link.internal
-        - link_type = link.internal
-        p
-          b= link_type(link.internal).capitalize
-      p= "Anchor: #{link.anchor} url: #{link.url} type: #{link_type(link.internal)}"
+    h3 Links
+    = render 'links'
+
 
 .images
-  h3 Images
   - if @page.images.present?
-    - @page.images.each do |image|
-      p= "src: #{image.src} #{show_item('alt', image.alt)}"
+    h3 Images
+    = render 'images'
 
 .htags
-  h3 H tags
   - if @page.htags.present?
-    - level = -1
-    - @page.htags.order(:level).each do |htag|
-      - if htag.level != level
-        - level = htag.level
-        p
-          b= "H#{level}"
-      p= htag.contents
+    h3 H tags
+    = render 'htags'
