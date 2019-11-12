@@ -1,8 +1,9 @@
-=render 'shared/errors', resource: @website
+div class="d-flex justify-content-center pt-5"
+  =render 'shared/errors', resource: @website
 
-= form_with model: @website, local: true do |f|
-  p
+  = form_with model: @website, local: true do |f|
     = f.label :url
-    = f.text_field :url
-
-  p= f.submit 'Analyze', class: 'btn btn-success'
+    span>
+    = f.text_field :url, placeholder: "Enter website domain"
+    span>
+    = f.submit 'Analyze', class: 'btn btn-success'

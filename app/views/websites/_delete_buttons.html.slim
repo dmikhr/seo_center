@@ -1,0 +1,8 @@
+div class="d-flex justify-content-start"
+  div class="row"
+    div class="col-md-auto"
+      - if can?(:destroy, @website)
+        p= button_to 'Delete report', website_path(@website), data: { confirm: "Delete report for #{@website.url}?" }, method: :delete, class: "btn btn-warning"
+    div class="col-md-auto"
+      - if can?(:destroy_all_versions, @website)
+        p= button_to 'Delete all history', destroy_all_versions_website_path(@website), data: { confirm: "Delete all reports for #{@website.url}?" }, method: :delete, class: "btn btn-danger"

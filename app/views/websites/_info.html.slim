@@ -1,0 +1,10 @@
+table class="table table-striped w-25"
+  tr
+    td www
+    td= boolean_to_readable(@website.www)
+  tr
+    td https
+    td= boolean_to_readable(@website.https)
+  tr
+    td number of pages
+    td= @website.pages.size

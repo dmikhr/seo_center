@@ -15,6 +15,6 @@ module PagesHelper
     levels = @page.htags.select(:level).distinct.map { |item| item.level }
     amounts = levels.map { |level| @page.htags.select { |htag| htag.level == level }.size }
     htags_amount = levels.zip(amounts).map { |level, amount| "h#{level}: #{amount}" }
-    "Total: #{@page.htags.size} | #{htags_amount.join(', ')}"
+    "Total: #{@page.htags.size} (#{htags_amount.join(', ')})" if htags_amount.size > 0
   end
 end
