@@ -53,7 +53,7 @@ RSpec.describe Admin::UsersController, type: :controller do
         expect(assigns(:users)).to_not eq(users)
       end
 
-      it 'renders index view' do
+      it 'redirected to login page' do
         expect(response).to redirect_to new_user_session_path
       end
     end

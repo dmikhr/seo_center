@@ -14,7 +14,7 @@ RSpec.describe Services::PageStructure do
   end
 
   it 'parse html page' do
-    page.contents = file_fixture("delphsite.html").read
+    page.contents = file_fixture("delphisite.html").read
     Services::PageStructure.call(page)
   end
 end

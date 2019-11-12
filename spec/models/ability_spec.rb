@@ -3,7 +3,7 @@ require "cancan/matchers"
 
 describe Ability, type: :model do
   subject(:ability) { Ability.new(user) }
-  # stub callback with parser call
+
   before { allow_any_instance_of(Website).to receive(:check_website) }
 
   describe 'for admin' do

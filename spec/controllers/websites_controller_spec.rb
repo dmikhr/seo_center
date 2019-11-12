@@ -33,8 +33,8 @@ RSpec.describe WebsitesController, type: :controller do
 
       it 'populates an array of websites of current user' do
         expect(assigns(:websites)).to eq([website_newest, website2])
-        # список сайтов current_user отображает последнюю версию сайта,
-        # если он сканировался несколько раз
+        # список сайтов для текущего пользователя содержит последнии версии отчетов,
+        # если сайт сканировался несколько раз
         expect(assigns(:websites)).to_not eq([website])
         # нельзя увидеть в своем списке сайты других пользователей
         expect(assigns(:websites)).to_not eq([website_another])
@@ -182,7 +182,7 @@ RSpec.describe WebsitesController, type: :controller do
     describe 'GET #show' do
       before { get :show, params: { id: website } }
 
-      it 'redirected to login page' do
+      it 'redirects to login page' do
         expect(response).to redirect_to new_user_session_path
       end
     end
@@ -193,7 +193,7 @@ RSpec.describe WebsitesController, type: :controller do
           expect { post :create, params: { website: attributes_for(:website) } }.to_not change(Website, :count)
         end
 
-        it 'redirects to show view' do
+        it 'redirects to login page' do
           post :create, params: { website: attributes_for(:website) }
           expect(response).to redirect_to new_user_session_path
         end
@@ -216,7 +216,7 @@ RSpec.describe WebsitesController, type: :controller do
         expect { delete :destroy_all_versions, params: { id: website } }.to_not change(Website, :count)
       end
 
-      it 'redirects to list of websites' do
+      it 'redirected to login page' do
         delete :destroy_all_versions, params: { id: website }
         expect(response).to redirect_to new_user_session_path
       end

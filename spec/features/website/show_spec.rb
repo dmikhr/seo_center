@@ -40,7 +40,7 @@ feature 'User can see report for submitted website' do
       visit website_path(website)
 
       expect(page).to have_content "Scanned time: #{website.scanned_time.strftime("%Y-%m-%d %H:%M:%S")} UTC"
-      # выбрать из выпадающего списка другуию версию отчета для этого сайта
+      # выбрать из выпадающего списка другую версию отчета для этого сайта
       select website_old1.scanned_time.strftime("%Y-%m-%d %H:%M:%S UTC"), from: "website_scanned_time"
       expect(page).to have_content "Scanned time: #{website_old1.scanned_time.strftime("%Y-%m-%d %H:%M:%S")} UTC"
     end
@@ -54,18 +54,13 @@ feature 'User can see report for submitted website' do
     scenario 'analyze page' do
       visit website_path(website)
 
-      website.pages.first.contents = file_fixture("delphsite.html").read
+      website.pages.first.contents = file_fixture("delphisite.html").read
 
       # click_on Analyze для первой страницы сайта
       path = "/pages/#{website.pages.first.id}/parse"
-      # for link
-      # find(:xpath, "//a[@href='#{path}']").click
-      # for button
-      find(:xpath, "//form[@action='#{path}']").click
-      # save_and_open_page
+      find(:xpath, "//form[@action='#{path}']/input").click
 
-      expect(page).to have_content 'Report'
-      expect(page).to have_content website.pages.first.path
+      expect(page).to have_content 'Page stats'
     end
   end
 
@@ -90,13 +85,12 @@ feature 'User can see report for submitted website' do
     scenario 'analyze any page' do
       visit website_path(website)
 
-      website.pages.first.contents = file_fixture("delphsite.html").read
+      website.pages.first.contents = file_fixture("delphisite.html").read
 
       path = "/pages/#{website.pages.first.id}/parse"
-      find(:xpath, "//form[@action='#{path}']").click
+      find(:xpath, "//form[@action='#{path}']/input").click
 
-      expect(page).to have_content 'Report'
-      expect(page).to have_content website.pages.first.path
+      expect(page).to have_content 'Page stats'
     end
   end
 

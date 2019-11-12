@@ -8,8 +8,8 @@ RSpec.describe PagesController, type: :controller do
   let(:another_user) { create(:user) }
   let(:website) { create(:website, user: user) }
   let(:website_another) { create(:website, user: another_user) }
-  let(:page) { create(:page, website: website, contents: file_fixture("delphsite.html").read) }
-  let(:page_another) { create(:page, website: website_another, contents: file_fixture("delphsite.html").read) }
+  let(:page) { create(:page, website: website, contents: file_fixture("delphisite.html").read) }
+  let(:page_another) { create(:page, website: website_another, contents: file_fixture("delphisite.html").read) }
 
   describe 'User' do
     before { login(user) }
@@ -64,7 +64,7 @@ RSpec.describe PagesController, type: :controller do
         end
       end
 
-      it 'renders show view' do
+      it 'redirected to login page' do
         expect(response).to redirect_to new_user_session_path
       end
     end
