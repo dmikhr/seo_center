@@ -8,7 +8,7 @@ class Website < ApplicationRecord
 
   def self.scanned_latest(user)
     websites = []
-    return if user.nil?
+    return unless user
 
     if user.admin?
       urls = Website.all.distinct.pluck(:url)

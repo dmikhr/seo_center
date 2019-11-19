@@ -30,7 +30,7 @@ class WebsitesController < ApplicationController
   end
 
   def destroy_all_versions
-    websites = Website.where(url: @website.url)
+    websites = Website.where(url: @website.url).find_each
     Website.transaction do
       websites.each do |website|
         website.destroy!
