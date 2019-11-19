@@ -4,6 +4,10 @@ module WebsitesHelper
   end
 
   def website_versions
-    Website.where(user: current_user, url: @website.url).order(scanned_time: :desc)
+    if current_user.admin?
+      Website.where(url: @website.url).order(scanned_time: :desc)
+    else
+      Website.where(user: current_user, url: @website.url).order(scanned_time: :desc)
+    end
   end
 end
