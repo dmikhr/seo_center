@@ -1,0 +1,9 @@
+h3 Users
+table class="table table-striped w-25"
+  tr
+    th User
+    th Websites submitted
+  - @users.each do |user|
+      tr
+        td class="align-middle"= user.email
+        td class="align-middle"= Website.scanned_latest(user).size

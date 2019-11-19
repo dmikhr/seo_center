@@ -38,18 +38,24 @@ class Services::PageStructure
     end
 
     def parse_htags
-      (1..6).each do |i|
-        htags_level = @html.css("//h#{i}")
-        text = @html.css("//h#{i}/text()")
-        htags_level.zip(text).each do |level, contents|
-          htag = @page.htags.create(level: level, contents: contents)
+      (1..6).each do |level|
+        htags_level = @html.css("//h#{level}")
+        htags_level.each do |htag|
+          contents = htag.css('/text()')
+          if contents.present?
+            @page.htags.create(level: level, contents: htag.css('/text()'))
+          else
+            # случай когда внутри h тега находится ссылка
+            href = htag.css('/a')
+            @page.htags.create(level: level, contents: href.css('/text()')) if href.present?
+          end
         end
       end
     end
 
     def parse_images
       @html.css("//img").each do |img|
-        image = @page.images.create(src: img.css("/@src"), alt: img.css("/@alt"))
+        @page.images.create(src: img.css("/@src"), alt: img.css("/@alt"))
       end
     end
 
@@ -59,12 +65,12 @@ class Services::PageStructure
         anchor = link.css("/text()")
         internal = internal_link?(href)
 
-        link = @page.links.create(anchor: anchor, url: href, internal: internal)
+        @page.links.create(anchor: anchor, url: href, internal: internal)
       end
     end
 
     def internal_link?(href)
-      return true if href[0] == '/' || href.to_s.start_with?(@page.website.url)
+      href.to_s[0] == '/' || href.to_s[0] == '#' || href.to_s.start_with?(@page.website.url) ? true : false
     end
   end
 end

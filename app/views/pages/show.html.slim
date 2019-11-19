@@ -1,0 +1,25 @@
+h2 Report
+= render 'basic_info'
+
+.stats
+  h3 Page stats
+  = render 'page_stats'
+
+.meta
+  h3 Meta data
+  = render 'meta_data'
+
+.links
+  - if @page.links.present?
+    h3 Links
+    = render 'links'
+
+.images
+  - if @page.images.present?
+    h3 Images
+    = render 'images'
+
+.htags
+  - if @page.htags.present?
+    h3 H tags
+    = render 'htags'

@@ -1,0 +1,23 @@
+nav class="navbar navbar-light bg-light"
+  h1
+    = link_to "SEO Center", root_path
+
+  div class="d-flex justify-content-start"
+    div class="row"
+      - if current_user.present? && current_user.admin?
+        div class="col-md-auto"
+          span Status: Admin
+        div class="col-md-auto"
+          = link_to 'Users list', admin_users_path
+      - if current_user.present?
+        div class="col-md-auto"
+          = link_to websites_list_caption, websites_path
+        div class="col-md-auto"
+          = link_to 'Log Out', destroy_user_session_path, method: :delete
+          span>
+          = "(#{current_user.email})"
+      - else
+        div class="col-md-auto"
+          = link_to 'Log In', new_user_session_path
+        div class="col-md-auto"
+          = link_to 'Sign Up', new_user_registration_path

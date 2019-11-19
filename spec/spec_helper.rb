@@ -19,14 +19,6 @@ SimpleCov.start 'rails' do
   add_filter '/spec/'
 end
 
-# https://relishapp.com/vcr/vcr/v/2-5-0/docs/test-frameworks/usage-with-rspec-metadata
-require 'vcr'
-VCR.configure do |c|
-  c.cassette_library_dir = 'spec/cassettes'
-  c.hook_into :webmock
-  c.configure_rspec_metadata!
-end
-
 # See http://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
 RSpec.configure do |config|
   # rspec-expectations config goes here. You can use an alternate

@@ -1,0 +1,8 @@
+table class="table table-striped w-50"
+  tr
+    th Contents
+    th Type
+  - @page.htags.order(:level).each do |htag|
+    tr
+      td= htag.contents
+      td= "H#{htag.level}"

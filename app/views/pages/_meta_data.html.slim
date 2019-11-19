@@ -1,0 +1,17 @@
+table class="table table-striped w-50"
+  tr
+    -if @page.meta.description.present?
+      td description
+      td= @page.meta.description
+  tr
+    -if @page.meta.description.present?
+      td author
+      td= @page.meta.author
+  tr
+    -if @page.meta.description.present?
+      td encoding
+      td= @page.meta.encoding
+  tr
+    -if @page.meta.description.present?
+      td keywords
+      td= @page.meta.keywords

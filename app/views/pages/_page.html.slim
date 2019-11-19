@@ -1,1 +1,3 @@
-p= link_to page.path, page.path
+tr
+  td= link_to page.path, page.path
+  td= button_to 'Analyze', parse_page_path(page), data: { page_id: page.id }, method: :post, class: "btn btn-info"

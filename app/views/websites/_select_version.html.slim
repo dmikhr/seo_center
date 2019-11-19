@@ -1,0 +1,6 @@
+div class="d-flex justify-content-start"
+  div class="row"
+    div class="col-md-auto"
+      p Select version
+    div class="col-md-auto"
+      p= select_tag "website_scanned_time", options_from_collection_for_select(website_versions, :id, :scanned_time, params[:id]), onchange: 'redirectToReport(this.value)', class: "browser-default custom-select"
